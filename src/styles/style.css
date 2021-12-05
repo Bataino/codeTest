@@ -1,0 +1,106 @@
+body{
+    background-image: linear-gradient(#081221,#03080f);
+    min-height: 100vh;
+}
+
+
+.bg-input{
+    background-color: #182c47;
+}
+input, select{
+    background-color: #182c47 !important;
+    color:#c1d1e8  !important;
+    font-size:13px !important;
+}
+input::placeholder{
+ font-family:'mulish' !important;
+ color:#c1d1e8  !important;
+ opacity: 1;
+}
+input:focus, select:focus{
+    background-color: #182c47 !important;
+    color:#c1d1e8  !important;
+}
+option{
+    border:0px !important;
+    padding:5px;
+    margin:0px !important;
+}
+
+
+.bg-button{
+    background-color: #5692e8;
+}
+button{
+    background-color: #5692e8;
+    color:white;
+}
+
+.bg-text{
+    color:#c1d1e8 ;
+}
+.text-head{
+    position:absolute;
+    left:85px;
+    top:110px;
+    opacity:.1;
+    font-size:70px;
+}
+.text-head-contact{
+    position:absolute;
+    left:25%;
+    top:40px;
+    opacity:.1;
+    font-size:70px;
+}
+
+@media(max-width:995px){
+ .text-head{
+    position:absolute;
+    left:50px;
+    top:50px;
+    opacity:.1;
+    font-size:70px;
+    }   
+    
+    .text-head-contact{
+        position:absolute;
+        left:5%;
+        top:150px;
+        opacity:.1;
+        font-size:60px;
+    }
+}
+@media(max-width:768px){
+    .badge{
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .btn-card{
+        position: relative;
+    }
+    
+}
+
+@media(min-width:768px){
+    .form-control-sm{
+        max-width: 100px;
+    }
+}
+
+.bg-card{
+    background-color: #0e1a2b;
+}
+.card-img{
+    max-height:100px;
+    width:100%;
+}
+
+
+.mont{
+    font-family: 'montserrat' !important;
+}
+.mulish{
+    font-family: '  ' !important;
+}
