@@ -1,8 +1,8 @@
-// module.exports = {
-//     pwa: {
-//       workboxOptions: {
-//         skipWaiting: true,
-//         clientsClaim: true,
-//       }
-//     }
-//   }
+module.exports = {
+    pwa: {
+      workboxOptions: {
+        skipWaiting: true,
+        clientsClaim: true,
+      }
+    }
+  }
