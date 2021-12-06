@@ -33,7 +33,7 @@
                                     <label for="name" class="text-white">
                                         Minimum Score
                                     </label>
-                                    <input placeholder="1 - 10" tyoe="number" @keyup="search" v-model="min_score" class="form-control text-white rounded-0 muli bg-input border-0 mt-2 py-2">
+                                    <input placeholder="1 - 10" tyoe="tel" @keyup="search" v-model="min_score" class="form-control text-white rounded-0 muli bg-input border-0 mt-2 py-2">
                                 </div>
                             </div>
 
@@ -86,10 +86,13 @@
                         <div class="spinner-grow rounded-0 mt-5 bg-text" role="status" style="font-size:30px;min-height:200px;min-width:200px">
                         </div>
                     </div> -->
-                    <div class=""  v-show="!games[0]" style="max-height:100px !important">
+                     <div class=""  v-if="!games[0] && loaded" style="max-height:100px !important">
                         <div>
                             <h2>No Result Found</h2>
                         </div>
+                    </div>
+
+                    <div class=""  v-show="!games[0] && !loaded" style="max-height:100px !important">
                         <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" :key="demo" style="opacity:.1">
                             <div class="col-sm-12 col-md-2 pe-md-0" style="">
                                 <div class="bg-dark w-100 h-100 mb-5" style="min-height:100px;position:relative">
@@ -228,8 +231,9 @@ export default defineComponent({
             this.games = this.oldGames.filter(
                 game => ( game.name.toUpperCase().includes(this.name.toUpperCase()) || 
                 game.summary.toUpperCase().includes(this.name.toUpperCase())) &&
-                game.rating >= parseInt(this.min_score)
+                game.rating >= (Number(this.min_score))
             )   
+            // this.SortAll_A()
         },
         async SortAll_A(){
             if(this.order_by == "name"){
@@ -268,6 +272,11 @@ export default defineComponent({
             const order_type = "SortAll_" + this.order_type;
             (this as any)[order_type];
         },
+        clear(){
+            this.name = ""
+            this.min_score = ''
+            this.order_by = ''
+        }
     },
     // watch:{
     //     name:function(){
