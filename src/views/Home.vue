@@ -200,7 +200,7 @@ export default defineComponent({
             demo:[1,2,3] as number[],
             games: []  as Game[],
             oldGames:[] as Game[],
-            min_score:0 as number,
+            min_score:'' as string,
             name:'' as string,
 
             order_by: '',
@@ -228,7 +228,7 @@ export default defineComponent({
             this.games = this.oldGames.filter(
                 game => ( game.name.toUpperCase().includes(this.name.toUpperCase()) || 
                 game.summary.toUpperCase().includes(this.name.toUpperCase())) &&
-                game.rating >= this.min_score
+                game.rating >= parseInt(this.min_score)
             )   
         },
         async SortAll_A(){
@@ -250,7 +250,7 @@ export default defineComponent({
             else if(this.order_by == "score"){
                 await sortByScore_D(this.games)
             }
-            else if(this.order_by == "relese_date"){
+            else if(this.order_by == "release_date"){
                 await sortByDate_D(this.games)
             }
             this.order_type = "D"
