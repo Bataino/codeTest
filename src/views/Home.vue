@@ -260,15 +260,15 @@ export default defineComponent({
                 this.SortByDate_A()
             }
         },
-         SortAll_B(){
+         SortAll_D(){
             if(this.order_by = "name"){
                 this.games.sort().reverse()
             }
             else if(this.order_byo = "score"){
-                this.sortByScore_B()
+                this.sortByScore_D()
             }
             else if(this.order_byo = "relese_date"){
-                this.SortByDate_B()
+                this.SortByDate_D()
             }
         }
     },
