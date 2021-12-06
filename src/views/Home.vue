@@ -83,7 +83,7 @@
                         </div>
                     </div> -->
                     <div class=""  v-show="!games[0]" style="max-height:100px !important">
-                        <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" style="opacity:.1">
+                        <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="dem in demo" style="opacity:.1">
                             <div class="col-sm-12 col-md-2 pe-md-0" style="">
                                 <div class="bg-dark w-100 h-100 mb-5" style="min-height:100px;position:relative">
                                     <img class="card-img" src="" alt="">
