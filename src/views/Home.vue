@@ -33,7 +33,7 @@
                                     <label for="name" class="text-white">
                                         Minimum Score
                                     </label>
-                                    <input placeholder="1 - 10" @keyup="sortByMinScore" v-model="min_score" class="form-control text-white rounded-0 muli bg-input border-0 mt-2 py-2">
+                                    <input placeholder="1 - 10" tyoe="number" @keyup="sortByMinScore" v-model="min_score" class="form-control text-white rounded-0 muli bg-input border-0 mt-2 py-2">
                                 </div>
                             </div>
 
@@ -61,10 +61,8 @@
 
                             <div class="col-sm-12 col-md-2  col-lg-12">
                                 <div class="text-end w-100 ">
-                                    <button style="margin-top:28px" class="btn rounded-0 bg-button form-control form-control-sm float-lg-end text-white muli px-lg-4 my-lg-2 border-0">
-                                        <font class="small">
-                                            Clear
-                                        </font>
+                                    <button style="margin-top:28px" class="btn small rounded-0 bg-button form-control form-control-sm float-lg-end text-white muli px-lg-4 my-lg-2 border-0">
+                                        Clear
                                     </button>
                                 </div>
                             </div>
@@ -83,11 +81,7 @@
                         </div>
                     </div> -->
                     <div class=""  v-show="!games[0]" style="max-height:100px !important">
-<<<<<<< HEAD
                         <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" :key="demo" style="opacity:.1">
-=======
-                        <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" style="opacity:.1">
->>>>>>> c5cfd8fea91e665b84422b57d3ad86edb0c17876
                             <div class="col-sm-12 col-md-2 pe-md-0" style="">
                                 <div class="bg-dark w-100 h-100 mb-5" style="min-height:100px;position:relative">
                                     <img class="card-img" src="" alt="">
@@ -138,9 +132,9 @@
                                     <div class="text-start w-100 pr-5 p-3">
                                         <div class="card-title mont h5 text-white" style="line-height:20px !important">
                                            {{ game.name }}<br>
-                                            <font class="bg-text" style="font-size:13px !important">
+                                            <span class="bg-text" style="font-size:13px !important">
                                                {{ timestamps_to_date(game.first_release_date) }}
-                                            </font>
+                                            </span>
                                         </div>
                                         <div class="muli small bg-text text" style="font-size:12px">
                                             {{ game.summary}}
@@ -173,11 +167,18 @@ import {
 import {
     Icon
 } from '@iconify/vue';
-import Header from '../components/Header.vue';
 
+import Header from '../components/Header.vue';
 import GameListService from "../services/GameListService";
 import Game from "../types/Game";
 import ResponseData from "../types/ResponseData";
+
+import {
+  sortByScore_A,
+  sortByScore_D,
+  sortByDate_A,
+  sortByDate_D  
+} from "../functions/Sorting";
 
 export default defineComponent({
     name: "Home",
@@ -190,45 +191,44 @@ export default defineComponent({
             demo:[1,2,3] as number[],
             games: []  as Game[],
             oldGames:[] as Game[],
-            min_score: '' as any,
+            min_score:0 as number,
             name:'' as string,
-            filter: '',
+            order_by: '',
+            day: 0 as number,
+            month: 0 as number
+        }
+    },
+    computed:{
+        format_month(){
+            var new_month = '';
+            if(this.month.toString().length == 1){
+                new_month  = '0' + this.month;
+            }  
+            return new_month;
+        },
+        format_day(){
+            var new_day = '';
+            if(this.day.toString().length == 1){
+                new_day  = '0' + this.day;
+            }  
+            return new_day;
         }
     },
     methods:{
-       timestamps_to_date(old_date: number){
-             const date = new Date(old_date);
-            const formatted_date = this.fN(date.getDate()) + '/' + this.fN(date.getMonth()+1) + '/' + this.fN(date.getFullYear())
+        // timestampsToDateFormat(old_date:number){
+        //     const datetime = new Date(old_date);
+        //     return datetime;
+        // },
+        timestamps_to_date(old_date: number){
+            const date = new Date(old_date);
+
+            this.month = date.getMonth();
+            this.day = date.getDate();
+
+            const formatted_date = this.format_day + '/' + this.format_month + '/' + date.getFullYear()
             return formatted_date;
         },
-        fN(myNumber:number){
-            let formattedNumber = myNumber.toLocaleString('en-US', {
-                minimumIntegerDigits: 2,
-                useGrouping: false
-            })
-            return formattedNumber;
-        },
-        sortByScore_A(array: Game[]){
-            return array.sort(function (a:Game, b:Game) {
-                return a.rating - b.rating;
-            });
-        },
-        sortByScore_D(array:Game[]){
-            return array.sort(function (a:Game, b:Game) {
-                return b.rating - a.rating;
-            });
-        },
-        sortByDate_D((array:Game[]){
-            return array.sort(function (a:Game, b:Game) {
-                return 0;
-            });
-        },
-        sortByDate_A((array:Game[]){
-            return array.sort(function (a:Game, b:Game) {
-                return 0;
-            });
-        },
-        sortByMinScore(){
+        async sortByMinScore(){
 
             if(this.min_score > 0){
                 var games = []
@@ -237,7 +237,7 @@ export default defineComponent({
                         games.push(element);
                     }
                 }
-                this.games =  this.sortByScore_A(games);   
+                this.games =  await sortByScore_A(games);   
             }
             else{
                 this.games = this.oldGames
@@ -253,26 +253,26 @@ export default defineComponent({
                 }
                 this.games =  games.sort();   
         },
-        SortAll_A(){
-            if(this.order_by = "name"){
+        async SortAll_A(){
+            if(this.order_by == "name"){
                 this.games.sort()
             }
-            else if(this.order_byo = "score"){
-                this.sortByScore_A()
+            else if(this.order_by == "score"){
+                await sortByScore_A(this.games)
             }
-            else if(this.order_byo = "relese_date"){
-                this.SortByDate_A()
+            else if(this.order_by == "relese_date"){
+                await sortByDate_A(this.games)
             }
         },
-         SortAll_D(){
-            if(this.order_by = "name"){
+        async SortAll_D(){
+            if(this.order_by == "name"){
                 this.games.sort().reverse()
             }
-            else if(this.order_byo = "score"){
-                this.sortByScore_D()
+            else if(this.order_by == "score"){
+                await sortByScore_D(this.games)
             }
-            else if(this.order_byo = "relese_date"){
-                this.SortByDate_D()
+            else if(this.order_by == "relese_date"){
+                await sortByDate_D(this.games)
             }
         }
     },
@@ -282,11 +282,10 @@ export default defineComponent({
             .then((response: ResponseData) => {
                 this.games = response.data
                 this.oldGames = response.data
-                localStorage.oldGames = response.data
                 console.log(response)
             })
             .catch((e: Error) => {
-                console.log(e);
+                alert(e.message);
             });
     }
 });
