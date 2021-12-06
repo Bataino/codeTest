@@ -83,7 +83,7 @@
                         </div>
                     </div> -->
                     <div class=""  v-show="!games[0]" style="max-height:100px !important">
-                        <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="dem in demo" style="opacity:.1">
+                        <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" style="opacity:.1">
                             <div class="col-sm-12 col-md-2 pe-md-0" style="">
                                 <div class="bg-dark w-100 h-100 mb-5" style="min-height:100px;position:relative">
                                     <img class="card-img" src="" alt="">
@@ -187,12 +187,13 @@ export default defineComponent({
             games: []  as Game[],
             oldGames:[] as Game[],
             min_score: '' as any,
-            name:'' as string
+            name:'' as string,
+            filter: '',
         }
     },
     methods:{
-        timestamps_to_date(old_date: number){
-            const date = new Date(old_date);
+       timestamps_to_date(old_date: number){
+             const date = new Date(old_date);
             const formatted_date = this.fN(date.getDate()) + '/' + this.fN(date.getMonth()+1) + '/' + this.fN(date.getFullYear())
             return formatted_date;
         },
@@ -203,10 +204,6 @@ export default defineComponent({
             })
             return formattedNumber;
         },
-        truncate(str:string, n:number){
-            return (str.length > n) ? str.substr(0, n-1) + '...' : str;
-        },
-
         sortByScore_A(array: Game[]){
             return array.sort(function (a:Game, b:Game) {
                 return a.rating - b.rating;
@@ -217,7 +214,16 @@ export default defineComponent({
                 return b.rating - a.rating;
             });
         },
-
+        sortByDate_D((array:Game[]){
+            return array.sort(function (a:Game, b:Game) {
+                return 0;
+            });
+        },
+        sortByDate_A((array:Game[]){
+            return array.sort(function (a:Game, b:Game) {
+                return 0;
+            });
+        },
         sortByMinScore(){
 
             if(this.min_score > 0){
@@ -242,11 +248,32 @@ export default defineComponent({
                     }
                 }
                 this.games =  games.sort();   
+        },
+        SortAll_A(){
+            if(this.order_by = "name"){
+                this.games.sort()
+            }
+            else if(this.order_byo = "score"){
+                this.sortByScore_A()
+            }
+            else if(this.order_byo = "relese_date"){
+                this.SortByDate_A()
+            }
+        },
+         SortAll_B(){
+            if(this.order_by = "name"){
+                this.games.sort().reverse()
+            }
+            else if(this.order_byo = "score"){
+                this.sortByScore_B()
+            }
+            else if(this.order_byo = "relese_date"){
+                this.SortByDate_B()
+            }
         }
     },
     created() {
       const gls = new GameListService();
-      
         gls.getAll()
             .then((response: ResponseData) => {
                 this.games = response.data
