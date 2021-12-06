@@ -53,10 +53,10 @@
                   <textarea class="form-control text-white rounded-0 muli bg-input border-0 my-2 py-2"></textarea>
                 </div>
 
-                <div class="py-2">
-                    <button class="btn rounded-0 bg-button w-sm-100 float-lg-end form-control-md text-white mt-4 muli px-lg-4 my-lg-2 border-0">
+                <div class="py-2 text-md-end">
+                    <button class="btn rounded-0 bg-button w-sm-100 float-lg-end form-control form-control-sm text-white mt-4 muli px-lg-4 my-lg-2 border-0">
                       <font class="small">
-                        Clear
+                        Submit
                       </font>
                     </button>
                   </div>
