@@ -233,7 +233,7 @@ export default defineComponent({
                 game.summary.toUpperCase().includes(this.name.toUpperCase())) &&
                 game.rating >= (Number(this.min_score))
             )   
-            // this.SortAll_A()
+            this.SortAll_A()
         },
         async SortAll_A(){
             if(this.order_by == "name"){
