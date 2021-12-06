@@ -1,6 +1,6 @@
 <template>
 <!-- <div clas="d-flex justify-content-center p-5"> -->
-<div class="p m-3 p-lg-5 m-lg-5 p-md-3 m-md-3 m-sm-3 p-sm-3 ">
+<div class="m-3 p-lg-5 m-lg-5 p-md-3 m-md-3 m-sm-3 py-sm-3 ">
     <h2 class="mont ps-3 ps-lg-0 text-head text-white">
         VIDEO
     </h2>
@@ -45,9 +45,6 @@
                                             <Icon icon="dashicons:arrow-down-alt" class="text-white" />
                                         </button>
                                         <select placeholder="Order By" v-model="order_by" class="w-100 custom-select rounded-0 border-0" @change="SortAll_A" id="select">
-                                            <option disabled selected>
-                                                Order By
-                                            </option>
                                             <option value="score">
                                                 Score
                                             </option>

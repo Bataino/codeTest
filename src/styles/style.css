@@ -63,7 +63,7 @@ button{
 @media(max-width:995px){
  .text-head{
     position:absolute;
-    left:50px;
+    left:20px;
     top:50px;
     opacity:.1;
     font-size:70px;
