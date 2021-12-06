@@ -6,7 +6,7 @@
       </h4>
       <div class="start-position w-100">
         <Header></Header>
-        <div class="d-flex bg-pri mary pt-5 bg-text justify-content-center align-items-center ">
+        <div class="d-flex pt-5 bg-text justify-content-center align-items-center ">
           <div class="p-3 mx-4" style="max-width:700px">
             <div class="text-start mb-5">
               <div class="h5 mont">

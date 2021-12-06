@@ -21,11 +21,11 @@ input:focus, select:focus{
     background-color: #182c47 !important;
     color:#c1d1e8  !important;
 }
-option{
+/* option{
     border:0px !important;
     padding:5px;
     margin:0px !important;
-}
+} */
 
 
 .bg-button{
@@ -77,6 +77,24 @@ button{
         font-size:60px;
     }
 }
+
+@media(max-width:575px){
+    .text-head{
+       position:absolute;
+       left:25px;
+       top:30px;
+       opacity:.1;
+       font-size:70px;
+       }   
+       
+       .text-head-contact{
+           position:absolute;
+           left:5%;
+           top:140px;
+           opacity:.1;
+           font-size:60px;
+       }
+   }
 @media(max-width:768px){
     .badge{
         position: absolute;

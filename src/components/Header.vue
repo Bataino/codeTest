@@ -9,7 +9,7 @@
             </h2>
           </div>
           <div class="col-lg-9">
-            <h2 class="mt-sm-5 mt-lg-0">
+            <h2 class="mt-5 mt-lg-0">
               <b class="mont text-white">
                 CONTACT
               </b>

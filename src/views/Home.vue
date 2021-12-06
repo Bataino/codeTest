@@ -1,10 +1,10 @@
 <template>
 <!-- <div clas="d-flex justify-content-center p-5"> -->
-<div class="p-4 m-3 p-lg-5 m-lg-5 p-md-3 m-md-3 m-sm-3 p-sm-3 ">
+<div class="p m-3 p-lg-5 m-lg-5 p-md-3 m-md-3 m-sm-3 p-sm-3 ">
     <h2 class="mont ps-3 ps-lg-0 text-head text-white">
         VIDEO
     </h2>
-    <div class="start-position w-100 px-3">
+    <div class="start-position w-100 px-lg-3">
         <Header></Header>
         <div class="row m-auto w-100 justify-content-center mt-5">
             <div class="col-sm-12 col-md-12 col-lg-3">
@@ -12,9 +12,6 @@
                     <h5 class="mont text-start text-white">
                         Filter Results
                     </h5>
-
-
-
 
                     <div class="text-start my-5">
                         <div class="">
@@ -40,14 +37,17 @@
                             <div class="col-sm-12 col-md-6 col-lg-12">
                                 <div class="my-4 my-md-0 my-lg-4">
                                     <label for="select" class="text-white mb-1 muli">Order By</label>
-                                    <div class="d-flex mt-2 mt-md-0">
+                                    <form class="d-flex mt-2 mt-md-0">
                                         <button class="btn bg-button rounded-0" v-if="this.order_type == 'D'" @click="changeOrderType">
                                             <Icon icon="dashicons:arrow-up-alt" class="text-white" />
                                         </button>
                                         <button class="btn bg-button rounded-0" v-if="this.order_type == 'A'" @click="changeOrderType">
                                             <Icon icon="dashicons:arrow-down-alt" class="text-white" />
                                         </button>
-                                        <select placeholder="Order By" v-model="order_by" class="form-control rounded-0 border-0" @change="SortAll_A" id="select">
+                                        <select placeholder="Order By" v-model="order_by" class="w-100 custom-select rounded-0 border-0" @change="SortAll_A" id="select">
+                                            <option disabled selected>
+                                                Order By
+                                            </option>
                                             <option value="score">
                                                 Score
                                             </option>
@@ -58,7 +58,7 @@
                                                 Release Date
                                             </option>
                                         </select>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
 
