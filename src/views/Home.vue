@@ -83,7 +83,11 @@
                         </div>
                     </div> -->
                     <div class=""  v-show="!games[0]" style="max-height:100px !important">
+<<<<<<< HEAD
                         <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" :key="demo" style="opacity:.1">
+=======
+                        <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" style="opacity:.1">
+>>>>>>> c5cfd8fea91e665b84422b57d3ad86edb0c17876
                             <div class="col-sm-12 col-md-2 pe-md-0" style="">
                                 <div class="bg-dark w-100 h-100 mb-5" style="min-height:100px;position:relative">
                                     <img class="card-img" src="" alt="">
@@ -186,7 +190,7 @@ export default defineComponent({
             demo:[1,2,3] as number[],
             games: []  as Game[],
             oldGames:[] as Game[],
-            min_score: 0 as number,
+            min_score: '' as any,
             name:'' as string,
             filter: '',
         }
