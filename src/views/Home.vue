@@ -16,12 +16,12 @@
 
 
 
-                    <form class="text-start my-5">
+                    <div class="text-start my-5">
                         <div class="">
                             <label for="name" class="text-white">
                                 Name(contains)
                             </label>
-                            <input placeholder="Text String" v-model="name" class="form-control text-white rounded-0 muli bg-input border-0 my-2 py-2" @keyup="sortByName">
+                            <input placeholder="Text String" v-model="name" class="form-control text-white rounded-0 muli bg-input border-0 my-2 py-2" @keyup="search">
                         </div>
 
                         <br>
@@ -33,7 +33,7 @@
                                     <label for="name" class="text-white">
                                         Minimum Score
                                     </label>
-                                    <input placeholder="1 - 10" tyoe="number" @keyup="sortByMinScore" v-model="min_score" class="form-control text-white rounded-0 muli bg-input border-0 mt-2 py-2">
+                                    <input placeholder="1 - 10" tyoe="number" @keyup="search" v-model="min_score" class="form-control text-white rounded-0 muli bg-input border-0 mt-2 py-2">
                                 </div>
                             </div>
 
@@ -41,10 +41,13 @@
                                 <div class="my-4 my-md-0 my-lg-4">
                                     <label for="select" class="text-white mb-1 muli">Order By</label>
                                     <div class="d-flex mt-2 mt-md-0">
-                                        <button class="btn bg-button rounded-0">
+                                        <button class="btn bg-button rounded-0" v-if="this.order_type == 'D'" @click="changeOrderType">
                                             <Icon icon="dashicons:arrow-up-alt" class="text-white" />
                                         </button>
-                                        <select placeholder="Order By" v-model="order_by" class="form-control rounded-0 border-0" id="select">
+                                        <button class="btn bg-button rounded-0" v-if="this.order_type == 'A'" @click="changeOrderType">
+                                            <Icon icon="dashicons:arrow-down-alt" class="text-white" />
+                                        </button>
+                                        <select placeholder="Order By" v-model="order_by" class="form-control rounded-0 border-0" @change="SortAll_A" id="select">
                                             <option value="score">
                                                 Score
                                             </option>
@@ -61,13 +64,16 @@
 
                             <div class="col-sm-12 col-md-2  col-lg-12">
                                 <div class="text-end w-100 ">
-                                    <button style="margin-top:28px" class="btn small rounded-0 bg-button form-control form-control-sm float-lg-end text-white muli px-lg-4 my-lg-2 border-0">
+                                    <button 
+                                        style="margin-top:28px" class="btn small rounded-0 bg-button form-control form-control-sm float-lg-end text-white muli px-lg-4 my-lg-2 border-0"
+                                        @click="clear"
+                                        >
                                         Clear
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
 
 
 
@@ -81,6 +87,9 @@
                         </div>
                     </div> -->
                     <div class=""  v-show="!games[0]" style="max-height:100px !important">
+                        <div>
+                            <h2>No Result Found</h2>
+                        </div>
                         <div class="row mb-4 no-gutters pr-5 pl-2"  v-for="demo in demo" :key="demo" style="opacity:.1">
                             <div class="col-sm-12 col-md-2 pe-md-0" style="">
                                 <div class="bg-dark w-100 h-100 mb-5" style="min-height:100px;position:relative">
@@ -193,80 +202,50 @@ export default defineComponent({
             oldGames:[] as Game[],
             min_score:0 as number,
             name:'' as string,
+
             order_by: '',
+            order_type: "A",
+
             day: 0 as number,
-            month: 0 as number
+            month: 0 as number,
+            loaded:false as boolean,
+
         }
     },
     computed:{
-        format_month(){
-            var new_month = '';
-            if(this.month.toString().length == 1){
-                new_month  = '0' + this.month;
-            }  
-            return new_month;
-        },
-        format_day(){
-            var new_day = '';
-            if(this.day.toString().length == 1){
-                new_day  = '0' + this.day;
-            }  
-            return new_day;
-        }
     },
     methods:{
-        // timestampsToDateFormat(old_date:number){
-        //     const datetime = new Date(old_date);
-        //     return datetime;
-        // },
+        dateFormat(old_date:number){
+           return (old_date).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+        },
         timestamps_to_date(old_date: number){
             const date = new Date(old_date);
+            const formatted_date = this.dateFormat(date.getDate()+1) + '/' + this.dateFormat(date.getMonth()) + '/' + date.getFullYear()
 
-            this.month = date.getMonth();
-            this.day = date.getDate();
-
-            const formatted_date = this.format_day + '/' + this.format_month + '/' + date.getFullYear()
             return formatted_date;
         },
-        async sortByMinScore(){
-
-            if(this.min_score > 0){
-                var games = []
-                for(let element of this.oldGames){
-                    if(element.rating >= this.min_score){
-                        games.push(element);
-                    }
-                }
-                this.games =  await sortByScore_A(games);   
-            }
-            else{
-                this.games = this.oldGames
-            }
-
-        },
-        sortByName(){
-                var games = []
-                for(let element of this.oldGames){
-                    if(element.name.toUpperCase().includes(this.name.toUpperCase()) || element.summary.toUpperCase().includes(this.name.toUpperCase())){
-                        games.push(element);
-                    }
-                }
-                this.games =  games.sort();   
+        search(){
+            this.games = this.oldGames.filter(
+                game => ( game.name.toUpperCase().includes(this.name.toUpperCase()) || 
+                game.summary.toUpperCase().includes(this.name.toUpperCase())) &&
+                game.rating >= this.min_score
+            )   
         },
         async SortAll_A(){
             if(this.order_by == "name"){
-                this.games.sort()
+                this.games.sort((a, b) => a.name.localeCompare(b.name));
             }
             else if(this.order_by == "score"){
                 await sortByScore_A(this.games)
             }
-            else if(this.order_by == "relese_date"){
+            else if(this.order_by == "release_date"){
                 await sortByDate_A(this.games)
             }
+            this.order_type = "A"
         },
         async SortAll_D(){
             if(this.order_by == "name"){
-                this.games.sort().reverse()
+                this.games.sort((a:Game, b:Game) => a.name.localeCompare(b.name)).reverse()
             }
             else if(this.order_by == "score"){
                 await sortByScore_D(this.games)
@@ -274,14 +253,34 @@ export default defineComponent({
             else if(this.order_by == "relese_date"){
                 await sortByDate_D(this.games)
             }
-        }
+            this.order_type = "D"
+
+        },
+        changeOrderType(){
+            if(this.order_type == "D"){
+                this.SortAll_A()
+                this.order_type = "A"
+            }
+            else{
+                this.SortAll_D()
+                this.order_type = "D"
+            }
+            const order_type = "SortAll_" + this.order_type;
+            (this as any)[order_type];
+        },
     },
+    // watch:{
+    //     name:function(){
+
+    //     }
+    // },
     created() {
       const gls = new GameListService();
         gls.getAll()
             .then((response: ResponseData) => {
                 this.games = response.data
                 this.oldGames = response.data
+                this.loaded = true
                 console.log(response)
             })
             .catch((e: Error) => {
